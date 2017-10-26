@@ -1,46 +1,43 @@
 # Overview
 
-We use Jenkins to implement our CI/CD pipeline. There is one Jenkins job for
-each GitHub repository. Each job builds, tests and, then deploys an artifact
-to Quay (e.g. a container for `solas-container` derived repositories, or a
-chart for `solas-chart` derived repositories).
+This document details the steps to implement our CI/CD pipeline with Jenkins. Each GitHub repo contains one Jenkins job that builds, tests and then deploys an artifact to Quay, such as a container or a chart.
 
-The following assumes a repository which has been duplicated according to
-the instructions in the [README](../README.md). The [GitHub](./github.md)
-and [Quay](./quay.md) instructions should have already been followed.
+The following steps assume you have already duplicated a repo according to the
+[README](../README.md) instructions and in conformance with [GitHub](./github.md)
+and [Quay](./quay.md) guidelines.
 
 ## Edit the [Jenkinsfile](../Jenkinsfile)
 
-* Edit the `container_name` (or `image_name`), and `robot_secret` at the top of
+* Edit the `container_name` or `image_name` and `robot_secret` at the top of
 the [Jenkinsfile](../Jenkinsfile).
 
-  * For `solas-container` derived repositories:
+  * For container repositories:
 
 ```
 def image_name            = "zabra-container";
 def robot_secret          = "quay-robot-zabra-container-rw"
 ```
 
-  The resulting container image will be deployed to the `quay.io` Container
-  Repository at https://quay.io/application/samsung_cnct/zabra-container?namespace=samsung_cnct .
+  The resulting container image will be deployed to the `quay.io` container
+  repository at https://quay.io/application/samsung_cnct/zabra-container?namespace=samsung_cnct .
 
-  Make sure to push these changes to the github repository before the next step.
+  Push these changes to the GitHub repository before proceeding.
 
-  * For `solas-chart` derived repositories:
+  * For chart repositories:
 
 ```
 def chart_name            = "zabra";
 def robot_secret          = "quay-robot-zabra-rw"
 ```
 
-  The resulting helm chart will be deployed to the `quay.io` App
-  Repository at https://quay.io/application/samsung_cnct/zabra?namespace=samsung_cnct .
+  The resulting Helm chart will be deployed to the `quay.io` app
+  repository at https://quay.io/application/samsung_cnct/zabra?namespace=samsung_cnct.
 
 The secrets defined here were created during the [Quay](./quay.md) configuration.
 
-## Edit the [Chart.yaml.in](../Chart.yaml.in) (solas-chart derived repositories only)
+## Chart Repositories Only: Edit the [Chart.yaml.in](../Chart.yaml.in)
 
-* Edit the `name`, `description`, `home`, and `sources`. Do not edit the `version`.
+* Edit the `name`, `description`, `home` and `sources`. Do not edit the `version`:
 
 ```
 name: zabra
@@ -53,37 +50,40 @@ sources:
 - https://github.com/samsung-cnct/chart-zabra
 ```
 
-Also add any relevant keywords. For inspiration you should look at other
-related charts. For example, if you are creating a logging chart, you might
-look at https://github.com/samsung-cnct/chart-fluent-bit.
+Also add any relevant keywords and look at other
+related charts for inspiration. For example, if you're creating a logging chart, you might
+look at the [Fluent Bit Chart](https://github.com/samsung-cnct/chart-fluent-bit).
 
-Make sure to push these changes to the github repository before the next step.
+Push these changes to the GitHub repository before proceeding.
 
 ## Configure Jenkins
 
-### Login and create the project
+### Log in and create the project
 
-* Log in to your Jenkins server.
+* Log in to your Jenkins server
+* Create a new project by selecting `New Item` on the Jenkins homepage
+  * Enter the repo name in the field at the top (for example, `container-zabra` or `chart-zabra`)
+  * Select `Multibranch Pipeline` 
+  
+  <p align="center">
+  <img src="https://github.com/NancyHarvey/solas/blob/ea5c38b5f5210c9635b7850d20b0a346aecdbb5c/docs/images/jenkins/Multibranch_cropped.png" width="700" title="Github Logo">
+</p>
 
-* Create a new project by selecting `New Item` on the Jenkins Homepage
-  * Enter the name of this repository in the field at the top, for example, `container-zabra` or `chart-zabra`
-  * Select Multibranch Pipeline ![screenshot](images/jenkins/multibranch.png)
+### Configure GitHub
 
-### Add GitHub configuration
+* Under `Branch Sources`, add GitHub as a source:
+<p align="left">
+  <img src="https://github.com/NancyHarvey/solas/blob/master/docs/images/Jenkins%20Branch%20Sources%20Config.png" width="200" title="Github Logo">
+</p>
 
-* Under `Branch Sources`, select `Add Source`
+* Configure `Branch Sources` as shown below.
+<p align="center">
+  <img src="https://github.com/NancyHarvey/solas/blob/master/docs/images/jenkins/Jenkins%20Branch%20Resources%20steps.png" width="700" title="Jenkins Branch Sources steps">
+</p>
 
-* Select Github
+* Confirm the configuration appears as below, then click `Save`.
+<p align="center">
+  <img src="https://github.com/NancyHarvey/solas/blob/master/docs/images/jenkins/Jenkins%20Branch%20Sources_completed.png" width="800" title="Jenkins Branch Sources steps Completed">
+</p>
 
-* _Select an entry under "Credentials", e.g. "Samsung CNCT Jenkins Bot/******"_
-  * Once you add this, you may need to go back and actually select it.
-* _Set an owner, e.g. `samsung-cnct`_
-  * Using anonymous access to github may result in throttling
-* _Select your repository, e.g. "container-zabra", "chart-zabra", etc._
-* _Under the GitHub branch source, add the additional behaviors "Advanced
-checkout behaviors" and "Advanced clone behaviors", but do not change their
-settings._
-
-![screenshot](images/jenkins/github-branch-sources.png)
-
-### Remember to select `Save`
+### Did you`save`?

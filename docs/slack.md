@@ -1,13 +1,13 @@
-# Slack notifications
+# Slack Notifications
 
-[Slack notifications](https://samsung-cnct.slack.com/apps/search?q=github) can be used to make developers aware of PR/issue and release activiy. To implement this you will need [Admin Privileges](https://help.github.com/articles/repository-permission-levels-for-an-organization/). To ensure that you are not the only one who can maintain these integrations, it is recommended that you grant a GitHub Team (e.g. `commontools`) permissions and not a single individual contributor.  The default notification level for the github integration can be noisy so you only want to have the following Events notify slack:     
-- Commit Events  
-    - Commits pushed to the repository  
-        - Only show commit summaries (no commit messages)  
-- Issue / Pull Request Events  
-    - Pull request open or closed  
-    - Issues opened or closed  
-    - Only show titles of new issues and pull requests  
-- Other Events  
-    - Branch or tag created or deleted  
-    - Branch force-pushed  
+We use Slack notifications to keep the team aware of our activities on PRs, issues and releases. To configure Slack integration with a GitHub repo, go to [Slack notifications](https://samsung-cnct.slack.com/apps/search?q=github) and select Add Configuration under the GitHub logo:
+
+<p align="center">
+  <img src="https://github.com/NancyHarvey/solas/blob/master/docs/images/GitHub%20Slack_Add%20Config.png" width="200" title="Github Logo">
+</p>
+
+If you don't see this option on the left sidebar, contact @coffeepac to request privileges.
+
+The default settings for Slack notifications can be quite noisy, so choose only the following events to be posted to Slack:
+
+![screenshot](https://github.com/NancyHarvey/solas/blob/master/docs/images/GitHub%20Slack_Events%20Config.png)
