@@ -1,3 +1,6 @@
+# Deprecation Notice
+NOTE: The following section is currently undergoing construction, as we are moving away from Jenkins and to GitLab. Please be patient with us as we revise these instructions.
+
 # Overview
 
 Webhooks allow GitHub to notify our Jenkins CI/CD service when 
