@@ -12,18 +12,17 @@ and [Quay](./quay.md) guidelines.
 
   * For container repositories:
 
-```
-def image_name            = "zabra-container";
-```
+`image_name: "zabra-container"`
+`robot_account: "zabra_robot"` (the name of the robot created during the [Quay](./quay.md) configuration)
 
   The resulting container image will be deployed to the `quay.io` container
   repository at https://quay.io/application/samsung_cnct/zabra-container?namespace=samsung_cnct .
 
   * For chart repositories:
 
-```
-def chart_name            = "zabra";
-```
+`chart_name: "zabra"`
+`robot_account: "zabra_robot_rw"` (the name of the robot created during the [Quay](./quay.md) configuration)
+
 
   The resulting Helm chart will be deployed to the `quay.io` app
   repository at https://quay.io/application/samsung_cnct/zabra?namespace=samsung_cnct.
@@ -64,19 +63,8 @@ GitLab comes with a list of handy built-in environment variables, some of which 
 
   * Head to your solas repo on Gitlab. Go to `Settings` --> `CI/CD` and expand `Secret Variables`.
   ![screenshot](images/gitlab/gitlab-settings.png)
-  * Create a `QUAY_ROBOT` Secret Key, and assign it the name of the robot created during the [Quay](./quay.md) configuration. 
-  * Similarly, create a `QUAY_PASSWORD` Secret Key and assign it the quay robot's docker login password.
+  * Create a `QUAY_PASSWORD` Secret Key and assign it the docker login password of the robot created during the [Quay](./quay.md) configuration. 
   ![screenshot](images/gitlab/gitlab-secrets.png)
-  * For container repositories:
-```
-def QUAY_ROBOT            = "zabra-container";
-def QUAY_PASSWORD         = The password the robot uses to log into docker.
-```
-  * For chart repositories:
-```
-def QUAY_ROBOT            = "zabra";
-def QUAY_PASSWORD         = The password the robot uses to log into docker.
-```
 
 ### Optional Cleanup stage
 
@@ -84,8 +72,8 @@ Some repositories build very large images, and we may want to clean up any unuse
 
 First, for a sample cleanup stage, please see the cleanup stage of [container-fluent-bit](https://github.com/samsung-cnct/container-fluent-bit/blob/master/.gitlab-ci.yml). You should be able to copy this verbatim, and then provide some GitLab configurations to make it work:
 
-1. Go to User -> Settings and request a [personal access token] (https://docs.gitlab.com/ce/user/profile/personal_access_tokens.html), with API access (read and write)
-2. In your Gitlab project repository, follow the steps for [GitLab secrets](#Define GitLab secrets) to create the following additional secrets:
+1. Go to User -> Settings and request a [personal access token](https://docs.gitlab.com/ce/user/profile/personal_access_tokens.html), with API access (read and write)
+2. In your Gitlab project repository, follow the steps for [GitLab secrets](#define-gitlab-secrets) to create the following additional secrets:
 
 `DOCKER_USERNAME` - the value should be the name of your personal access token
 `DOCKER_PASSWORD` - the value should be the value of your personal access token
