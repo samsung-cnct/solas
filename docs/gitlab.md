@@ -8,11 +8,12 @@ and [Quay](./quay.md) guidelines.
 
 ## Edit gitlab-ci.yml file
 
-* Edit the `chart_name` or `image_name` in the `variables` section of the gitlab-ci.yml file.
+* Edit the `chart_name` or `image_name` as well as the `robot_account` in the `variables` section of the gitlab-ci.yml file.
 
   * For container repositories:
 
 `image_name: "zabra-container"`
+
 `robot_account: "zabra_robot"` (the name of the robot created during the [Quay](./quay.md) configuration)
 
   The resulting container image will be deployed to the `quay.io` container
@@ -21,6 +22,7 @@ and [Quay](./quay.md) guidelines.
   * For chart repositories:
 
 `chart_name: "zabra"`
+
 `robot_account: "zabra_robot_rw"` (the name of the robot created during the [Quay](./quay.md) configuration)
 
 
