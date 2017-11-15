@@ -4,7 +4,7 @@ This document details the steps to implement our CI/CD pipeline with GitLab. Eac
 
 The following steps assume you have already duplicated a repo according to the
 [README](../README.md) instructions and in conformance with [GitHub](./github.md)
-and [Quay](./quay.md) guidelines.
+and [Quay](./quay.md) guidelines. If you are migrating an existing repo, you will need the appropriate [chart](https://github.com/samsung-cnct/solas-chart/blob/master/.gitlab-ci.yml) or [container](https://github.com/samsung-cnct/solas-container/blob/master/.gitlab-ci.yml) gitlab-ci.yml template.
 
 ## Edit gitlab-ci.yml file
 
@@ -12,61 +12,59 @@ and [Quay](./quay.md) guidelines.
 
   * For container repositories:
 
-`image_name: "zabra-container"`
+    `image_name: "zabra-container"`
 
-`robot_account: "zabra_robot"` (the name of the robot created during the [Quay](./quay.md) configuration)
+    `robot_account: "zabra_rw"` (the name of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration)
 
-  The resulting container image will be deployed to the `quay.io` container
-  repository at https://quay.io/application/samsung_cnct/zabra-container?namespace=samsung_cnct .
+    The resulting container image will be deployed to the `quay.io` container
+    repository at https://quay.io/application/samsung_cnct/zabra-container?namespace=samsung_cnct .
 
   * For chart repositories:
 
-`chart_name: "zabra"`
+    `chart_name: "zabra"` or `chart_name: "zabra-chart"` depending on name availability
 
-`robot_account: "zabra_robot_rw"` (the name of the robot created during the [Quay](./quay.md) configuration)
+    `robot_account: "zabra_robot_rw"` (the name of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration)
 
+    The resulting Helm chart will be deployed to the `quay.io` app
+    repository at https://quay.io/application/samsung_cnct/zabra?namespace=samsung_cnct.
 
-  The resulting Helm chart will be deployed to the `quay.io` app
-  repository at https://quay.io/application/samsung_cnct/zabra?namespace=samsung_cnct.
+## Chart Repositories Only:
 
-## Chart Repositories Only: Edit the Chart.yaml.in file
+* If this is a migration from a previous solas-derived repo, create a `build` folder at the project root. Create `build/test.sh` and copy in the contents of the [test.sh template](https://github.com/samsung-cnct/solas-chart/blob/master/build/test.sh).  Move `Chart.yaml.in` inside the `build` folder.
 
-* This file is located in the repository's `build` folder
+* Edit `build/Chart.yaml.in`
 
-* Edit the `name`, `description`, `home` and `sources`. Do not edit the `version`:
-
-```
-name: zabra
-version: ${CHART_VER}-${CHART_REL}
-description: Sample chart template for registry
-keywords:
-- kraken
-home: https://github.com/samsung-cnct/chart-zabra
-sources:
-- https://github.com/samsung-cnct/chart-zabra
-```
-
-Also add any relevant keywords and look at other
-related charts for inspiration. For example, if you're creating a logging chart, you might
-look at the [Fluent Bit Chart](https://github.com/samsung-cnct/chart-fluent-bit).
-
+  * Edit the `name`, `description`, `home` and `sources`. Do not edit the `version`. Add any relevant keywords and look at othe related charts inspiration. For example, if you're creating a logging chart, you might look at the [Fluent Bit Chart](https://github.com/samsung-cnct/chart-fluent-bit).
+    ```
+    name: zabra
+    version: ${CHART_VER}-${CHART_REL}
+    description: Sample chart template for registry
+    keywords:
+    - kraken
+    home: https://github.com/samsung-cnct/chart-zabra
+    sources:
+    - https://github.com/samsung-cnct/chart-zabra
+    ```
 ## Configure GitLab
 
 Get set up with GitLab:
-[Samsung GitLab workflow best practices](missing link)
+[Samsung GitLab workflow best practices](https://github.com/samsung-cnct/ci-evaluation/blob/master/docs/onboarding.md)
 
 TODO: How to integrate Github repo with GitLab on a new repo
 
 ### GitLab environment variables
-GitLab comes with a list of handy built-in environment variables, some of which are used in the CI file. 
+GitLab comes with a list of handy built-in environment variables, some of which are used in the CI file.
 [Reference here](http://docs.gitlab.com/ce/ci/variables/README.html#predefined-variables-environment-variables)
 
-### Define GitLab secrets
+### Define GitLab Secret Variable
 
   * Head to your solas repo on Gitlab. Go to `Settings` --> `CI/CD` and expand `Secret Variables`.
-  ![screenshot](images/gitlab/gitlab-settings.png)
-  * Create a `QUAY_PASSWORD` Secret Key and assign it the docker login password of the robot created during the [Quay](./quay.md) configuration. 
-  ![screenshot](images/gitlab/gitlab-secrets.png)
+
+    ![screenshot](images/gitlab/gitlab-settings.png)
+
+  * Create a [Secret Variable](https://git.cnct.io/help/ci/variables/README#secret-variables) named `QUAY_PASSWORD` and assign it the robot token of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration.
+
+    ![screenshot](images/gitlab/gitlab-secret-var.png)
 
 ### Optional Cleanup stage
 
