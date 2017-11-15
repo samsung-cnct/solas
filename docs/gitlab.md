@@ -4,9 +4,9 @@ This document details the steps to implement our CI/CD pipeline with GitLab. Eac
 
 The following steps assume you have already duplicated a repo according to the
 [README](../README.md) instructions and in conformance with [GitHub](./github.md)
-and [Quay](./quay.md) guidelines. If you are migrating an existing repo, you will need the appropriate [chart](https://github.com/samsung-cnct/solas-chart/blob/master/.gitlab-ci.yml) or [container](https://github.com/samsung-cnct/solas-container/blob/master/.gitlab-ci.yml) gitlab-ci.yml template.
+and [Quay](./quay.md) guidelines. If you are migrating an existing repo, you will need the appropriate [chart](https://github.com/samsung-cnct/solas-chart/blob/master/.gitlab-ci.yml) or [container](https://github.com/samsung-cnct/solas-container/blob/master/.gitlab-ci.yml) `.gitlab-ci.yml` template.
 
-## Edit gitlab-ci.yml file
+## Edit .gitlab-ci.yml file
 
 * Edit the `chart_name` or `image_name` as well as the `robot_account` in the `variables` section of the gitlab-ci.yml file.
 
@@ -14,7 +14,7 @@ and [Quay](./quay.md) guidelines. If you are migrating an existing repo, you wil
 
     `image_name: "zabra-container"`
 
-    `robot_account: "zabra_rw"` (the name of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration)
+    `robot_account: "zabra_container_rw"` (the name of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration)
 
     The resulting container image will be deployed to the `quay.io` container
     repository at https://quay.io/application/samsung_cnct/zabra-container?namespace=samsung_cnct .
@@ -23,7 +23,7 @@ and [Quay](./quay.md) guidelines. If you are migrating an existing repo, you wil
 
     `chart_name: "zabra"` or `chart_name: "zabra-chart"` depending on name availability
 
-    `robot_account: "zabra_robot_rw"` (the name of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration)
+    `robot_account: "zabra_rw"` (the name of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration)
 
     The resulting Helm chart will be deployed to the `quay.io` app
     repository at https://quay.io/application/samsung_cnct/zabra?namespace=samsung_cnct.
@@ -49,8 +49,6 @@ and [Quay](./quay.md) guidelines. If you are migrating an existing repo, you wil
 
 Get set up with GitLab:
 [Samsung GitLab workflow best practices](https://github.com/samsung-cnct/ci-evaluation/blob/master/docs/onboarding.md)
-
-TODO: How to integrate Github repo with GitLab on a new repo
 
 ### GitLab environment variables
 GitLab comes with a list of handy built-in environment variables, some of which are used in the CI file.
