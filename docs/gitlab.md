@@ -8,29 +8,29 @@ and [Quay](./quay.md) guidelines. If you are migrating an existing repo, you wil
 
 ## Edit .gitlab-ci.yml file
 
-* Edit the `chart_name` or `image_name` as well as the `robot_account` in the `variables` section of the gitlab-ci.yml file.
+* Edit the `CHART_NAME` or `IMAGE_NAME` as well as the `ROBOT_ACCOUNT` in the `variables` section of the gitlab-ci.yml file.
 
   * For container repositories:
 
-    `image_name: "zabra-container"`
+    `IMAGE_NAME: "zabra-container"`
 
-    `robot_account: "zabra_container_rw"` (the name of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration)
+    `ROBOT_ACCOUNT: "zabra_container_rw"` (the name of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration)
 
     The resulting container image will be deployed to the `quay.io` container
     repository at https://quay.io/application/samsung_cnct/zabra-container?namespace=samsung_cnct .
 
   * For chart repositories:
 
-    `chart_name: "zabra"` or `chart_name: "zabra-chart"` depending on name availability
+    `CHART_NAME: "zabra"` or `CHART_NAME: "zabra-chart"` depending on name availability
 
-    `robot_account: "zabra_rw"` (the name of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration)
+    `ROBOT_ACCOUNT: "zabra_rw"` (the name of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration)
 
     The resulting Helm chart will be deployed to the `quay.io` app
     repository at https://quay.io/application/samsung_cnct/zabra?namespace=samsung_cnct.
 
 ## Chart Repositories Only:
 
-* If this is a migration from a previous solas-derived repo, create a `build` folder at the project root. Create `build/test.sh` and copy in the contents of the [test.sh template](https://github.com/samsung-cnct/solas-chart/blob/master/build/test.sh).  Move `Chart.yaml.in` inside the `build` folder.
+* If this is a migration from a previous solas-derived repo, create a `build` folder at the project root. Create `build/test.sh` and `build/build.sh`. Copy in the contents of the [test.sh](https://github.com/samsung-cnct/solas-chart/blob/master/build/test.sh) and [build.sh](https://github.com/samsung-cnct/solas-chart/blob/master/build/build.sh) templates.  Move `Chart.yaml.in` inside the `build` folder.
 
 * Edit `build/Chart.yaml.in`
 
