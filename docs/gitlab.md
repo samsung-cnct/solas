@@ -60,9 +60,9 @@ GitLab comes with a list of handy built-in environment variables, some of which 
 
     ![screenshot](images/gitlab/gitlab-settings.png)
 
-  * Create a [Secret Variable](https://git.cnct.io/help/ci/variables/README#secret-variables) named `QUAY_PASSWORD` and assign it the robot token of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration.
+  * Create a [Secret Variable](https://git.cnct.io/help/ci/variables/README#secret-variables) named `REGISTRY_PASSWORD` and assign it the robot token of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration.
 
-    ![screenshot](images/gitlab/gitlab-secret-var.png)
+    ![screenshot](images/gitlab/gitlab-secret.png)
 
 ### Optional Cleanup stage
 
@@ -77,3 +77,9 @@ First, for a sample cleanup stage, please see the cleanup stage of [container-fl
 `DOCKER_PASSWORD` - the value should be the value of your personal access token
 
 These two env variables will be passed into the `docker-registry-curl` tool's `entrypoint` script and allow to remove entries from the registry.
+
+## Add a pipeline status badge to your project's README.md
+
+In Gitlab, head to Settings -> CI/CD, and expand General Pipeline Settings. Scroll down until you see a section called Pipeline Status, then grab the markdown code and put it at the top of your repo's README.md. This will allow the pipeline status to be visible from your project's main page.
+
+![screenshot](images/gitlab/pipeline-status.png)
