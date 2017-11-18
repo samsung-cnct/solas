@@ -60,9 +60,9 @@ GitLab comes with a list of handy built-in environment variables, some of which 
 
     ![screenshot](images/gitlab/gitlab-settings.png)
 
-  * Create a [Secret Variable](https://git.cnct.io/help/ci/variables/README#secret-variables) named `QUAY_PASSWORD` and assign it the robot token of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration.
+  * Create a [Secret Variable](https://git.cnct.io/help/ci/variables/README#secret-variables) named `REGISTRY_PASSWORD` and assign it the robot token of the robot created during the [Quay](./quay.md#create-a-robot-account) configuration.
 
-    ![screenshot](images/gitlab/gitlab-secret-var.png)
+    ![screenshot](images/gitlab/gitlab-secret.png)
 
 ### Optional Cleanup stage
 
