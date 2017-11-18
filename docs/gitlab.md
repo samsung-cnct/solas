@@ -77,3 +77,9 @@ First, for a sample cleanup stage, please see the cleanup stage of [container-fl
 `DOCKER_PASSWORD` - the value should be the value of your personal access token
 
 These two env variables will be passed into the `docker-registry-curl` tool's `entrypoint` script and allow to remove entries from the registry.
+
+## Add a pipeline status badge to your project's README.md
+
+In Gitlab, head to Settings -> CI/CD, and expand General Pipeline Settings. Scroll down until you see a section called Pipeline Status, then grab the markdown code and put it at the top of your repo's README.md. This will allow the pipeline status to be visible from your project's main page.
+
+![screenshot](images/gitlab/pipeline-status.png)
