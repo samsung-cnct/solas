@@ -30,7 +30,12 @@ and [Quay](./quay.md) guidelines. If you are migrating an existing repo, you wil
 
 ## Chart Repositories Only:
 
-* If this is a migration from a previous solas-derived repo, create a `build` folder at the project root. Create `build/test.sh` and `build/build.sh`. Copy in the contents of the [test.sh](https://github.com/samsung-cnct/solas-chart/blob/master/build/test.sh) and [build.sh](https://github.com/samsung-cnct/solas-chart/blob/master/build/build.sh) templates.  Move `Chart.yaml.in` inside the `build` folder.
+* If this is a migration from a previous solas-derived repo:
+  - create a `build` folder at the project root
+  - create `build/test.sh` and `build/build.sh`
+  - copy in the contents of the [test.sh](https://github.com/samsung-cnct/solas-chart/blob/master/build/test.sh) and [build.sh](https://github.com/samsung-cnct/solas-chart/blob/master/build/build.sh) templates
+  - run `chmod 755 build/test.sh build/build.sh`
+  - move `Chart.yaml.in` inside the `build` folder.      
 
 * Edit `build/Chart.yaml.in`
 
@@ -56,7 +61,7 @@ GitLab comes with a list of handy built-in environment variables, some of which 
 
 ### Define GitLab Secret Variable
 
-  * Head to your solas repo on Gitlab. Go to `Settings` --> `CI/CD` and expand `Secret Variables`.
+  * Your initial PR will create a repo for your project on Gitlab. Once that has been created,  go to `Settings` --> `CI/CD` and expand `Secret Variables`.
 
     ![screenshot](images/gitlab/gitlab-settings.png)
 
