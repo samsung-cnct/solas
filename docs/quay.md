@@ -13,12 +13,20 @@ The following assumes a repository that's been duplicated according to the [READ
 
 ## [Create](https://docs.quay.io/guides/create-repo.html) a Repository in Quay
 
+
+### Naming
+
 Artifacts for the Samsung CNCT organization are stored in the `samsung_cnct`
 namespace. By convention, the artifact name is driven by the chart or container name. 
 For example, the artifact for the container repository `container-zabra` is named 
 `zabra-container`. And for the application repository `chart-zabra`, the
 artifact is named simply `zabra`. We've chosen this naming convention because the application, not
 the container, is generally the artifact we expect users to interact with.
+
+#### Exception
+Because Quay repositories and applications share the same namespace, and because we have some older Quay artifacts, there are some cases in which the plain `zabra` name for a chart is already taken on Quay. In this case, the chart artifact  is called `zabra-chart`.
+
+## Create a repository
 
 To create a repository, log into [quay.io](https://quay.io) and follow the steps shown in the screenshot below, 
 
@@ -41,7 +49,7 @@ By convention, robot accounts are named after the artifact they're associated
 with and the permissions they grant. Dashes are not allowed in robot names, so
 they are replaced by underscores. For example, read/write premissions for
 the `zabra-container` artifact are named `zabra_container_rw`. The same
-permissions for `zabra` are `zabra_rw`.
+permissions for `zabra` are `zabra_rw`, or in [some cases](#exception) `zabra_chart_rw`.
 
 * Go to your repository's settings
 * Under the section ` User and Robot Permissions`
@@ -51,58 +59,3 @@ permissions for `zabra` are `zabra_rw`.
   * While in settings, click `Owners` from the `Teams` section of the drop-down and grant `admin` privileges
 
 ![screenshot](images/quay/zabra-permissions.png)
-
-### Add Kubernetes Secret to production cluster for your robot
-
-NOTE: The following section is currently undergoing construction, as we are moving away from Jenkins and to GitLab. Please be patient with us as we revise these instructions.
-
-To allow Jenkins to use the robot to access Quay, create a Kubernetes Secret. This is preferred over other methods of passing secrets because it
-allows us to reuse production Kubernetes processes (e.g. monitoring, logging,
-auditing, backups, etc.).
-
-By convention, Kubernetes Secrets are named after the artifact they give
-permissions for and the permissions they give. For example,
-`quay-robot-zabra-container-rw` or `quay-robot-zabra-rw`.
-
-* Log into the CNCT production cluster using
-[these](https://github.com/samsung-cnct/docs/blob/master/cnct/production-kubernetes-cluster.md)
-instructions.
-
-* Go to https://quay.io/organization/samsung_cnct?tab=robots and find your
-robot.
-
-* Click on Docker Login
-
-* Calculate base64 encoded Docker username and password (the `tr` command may be required on OS X). The username and password can be copied from the displayed command for Docker login. 
-
-```
-export HISTCONTROL=ignorespace
- echo -n 'samsung_cnct+zabra_r' | base64 | tr -d '\n' ; echo
- echo -n '<robot's_docker_password>' | base64 | tr -d '\n' ; echo
-```
-
-Note the leading space in each echo command sequence. This prevents the
-command from being stored in your history when you are using bash, and
-is a good security practice.  
-
-  * Create a [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
-to bring this configuration into the cluster. First create a file named `secret.yaml` containing
-the values calculated above.
-
-```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: quay-robot-zabra-container-rw
-  namespace: common-jenkins
-type: Opaque
-data:
-  username: <encoded_docker_username>
-  password: <encoded_docker_password>
-```
-
-* Then run `kubectl create -f secret.yaml` to create the Secret.
-
-* Finally, if you haven't already done so, head to the Jenkinsfile for your
-repo and edit the `robot_secret` to be `quay-robot-zabra-container-rw`
-or `quay-robot-zabra-rw`.

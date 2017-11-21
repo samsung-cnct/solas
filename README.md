@@ -9,6 +9,8 @@ We use GitLab to implement our CI/CD pipelines. There is one GitLab repository f
 each GitHub repository. Each job builds, tests and, then deploys an artifact
 to Quay. Here you'll find our best practices for creating and managing GitHub repositories, templates for issues and PRs, commit hooks, licensing guidelines and more.
 
+All of samsung-cnct's GitHub repositories are automatically linked to GitLab via our [implementation](https://github.com/samsung-cnct/chart-failfast-ci) of the [failfast API](https://github.com/samsung-cnct/failfast-api). This means that as long as a project owned by samsung-cnct has a `.gitlab-ci.yml` file, a GitLab repository and CI pipeline will be created automatically, with no additional setup.
+
 ## Quickstart
 
 - Determine a [name](http://phrontistery.info/nautical.html) for your project,
@@ -28,9 +30,9 @@ cd ..
 rm -rf solas.git
 ```
 
-- Configure CI/CD by following the instructions for [GitHub](https://github.com/samsung-cnct/solas/blob/master/docs/github.md), [Quay](https://github.com/samsung-cnct/solas/blob/master/docs/quay.md), and [GitLab](https://github.com/samsung-cnct/solas/blob/master/docs/gitlab.md).
-[Jenkins](https://github.com/samsung-cnct/solas/blob/master/docs/jenkins.md) is currently being phased out.
-- Configure [Slack](https://github.com/samsung-cnct/solas/blob/master/docs/slack.md) notifications
+- Configure [Github collaborators and teams](/docs/github.md)
+- Configure CI/CD by following the instructions for [Quay](/docs/quay.md), and [GitLab](/docs/gitlab.md).
+- Configure [Slack](/docs/slack.md) notifications
 - [Fork](https://help.github.com/articles/fork-a-repo/) the `zabra` repo
 (https://github.com/samsung-cnct/zabra) from `samsung-cnct` and begin
 submitting PRs
